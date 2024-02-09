@@ -30,3 +30,13 @@
 *.exe
 *.out
 *.app
+
+# Для работы с кодом (это для того что бы в репозитории не было служебных папок .vs и .vscode + служебные файлы)
+.vscode
+.vs
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.filters
+*.vcxproj.user
+*.user
