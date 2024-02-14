@@ -26,7 +26,7 @@ int main(int argc, char* argv[]){
     //options::Options program_option = options::Options();
 
     // Создаем экземпляр класса графического дизайна приложения
-    gui::GUI program_gui = gui::GUI();
+    // gui::GUI program_gui = gui::GUI();
     
 
     cout << "Hello word\n";
