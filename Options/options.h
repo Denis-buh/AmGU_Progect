@@ -24,18 +24,23 @@
 
 
 #pragma once
+#include <iostream>
+#include <map>
+
+using namespace std;
+
+
 
 /**
  * @brief 
  * Данная область имен необходимо чтобы хранить реализацию блока параметров
 */
-namespace options{
+namespace opt{
 /**
  * @brief 
  * Данный класс необходим для работы с параметрами приложения
 */
 class Options;
-
 
 }
 

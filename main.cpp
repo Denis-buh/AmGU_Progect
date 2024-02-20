@@ -23,7 +23,7 @@ int main(int argc, char* argv[]){
     */
 
     // Создаем экземпляр класса параметров приложения
-    // options::Options program_option = options::Options();
+    //opt::Options program_option = opt::Options();
 
     // Создаем экземпляр класса графического дизайна приложения
     // gui::GUI program_gui = gui::GUI();
