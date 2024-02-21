@@ -27,7 +27,7 @@
 */
 
 
-//#pragma once
+#pragma once
 #include "./Options_file.cpp"
 
 
@@ -36,7 +36,10 @@
 using namespace std;
 
 
-
+/**
+ * @brief 
+ * Данная область имен необходимо чтобы хранить реализацию блока параметров
+*/
 namespace opt{
 
 /**
@@ -94,7 +97,7 @@ public:
 
 
 
-#define DEBUG // Для тестирования модуля
+//#define DEBUG // Для тестирования модуля
 
 
 #ifdef DEBUG 

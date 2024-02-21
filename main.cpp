@@ -5,7 +5,7 @@
 #include <iostream>
 #include <map>
 // Подключаем библиотеку параметров
-#include "Options\options.h"
+#include "Options\options.cpp"
 // Подключаем библиотеку графического дизайна
 #include "GUI\GUI.h"
 // Подключаем библиотеку для работы с файлами
@@ -23,7 +23,10 @@ int main(int argc, char* argv[]){
     */
 
     // Создаем экземпляр класса параметров приложения
-    //opt::Options program_option = opt::Options();
+    opt::Options program_option = opt::Options();
+    // Загрузка параметров
+    opt::File_options program_options = program_option.load_options();
+
 
     // Создаем экземпляр класса графического дизайна приложения
     // gui::GUI program_gui = gui::GUI();
