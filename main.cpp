@@ -3,13 +3,13 @@
 
 
 #include <iostream>
-#include <map>
+// Времено вырезано 
 // Подключаем библиотеку параметров
-#include "Options\options.cpp"
+// #include "Options\options.cpp"
 // Подключаем библиотеку графического дизайна
-#include "GUI\GUI.h"
 // Подключаем библиотеку для работы с файлами
-#include "Courses\courses.h"
+//#include "Courses\courses.h"
+#include "GUI\GUI.h"
 
 using namespace std;
 
@@ -22,12 +22,11 @@ int main(int argc, char* argv[]){
         Последующие аргументы - то что передано командной строке (файлы по асоциациям/открытиям с помощью )
     */
 
+    // Времено вырезано 
     // Создаем экземпляр класса параметров приложения
-    opt::Options program_option = opt::Options();
+    //opt::Options program_option = opt::Options();
     // Загрузка параметров
-    opt::File_options program_options = program_option.load_options();
-
-
+    //opt::File_options program_options = program_option.load_options();
     // Создаем экземпляр класса графического дизайна приложения
     // gui::GUI program_gui = gui::GUI();
     
