@@ -5,7 +5,8 @@
 #include <iostream>
 #include <QApplication>
 #include <QMessageBox>
-
+//#include <typeinfo>
+#include <map>
 
 // Времено вырезано 
 // Подключаем библиотеку параметров
@@ -20,13 +21,6 @@
 using namespace std;
 
 
-/*
-Структура в которой будут хранится значения типа:
-    "Имя окна"{
-        "название элемента интерфейса окна" = "функция которая должна быть подвязана на интерфейс"
-    }
-*/
-
 
 
 class Program: public GUI{
@@ -40,21 +34,41 @@ protected:
 
 
 public:
-    /*void set_locale(){
-        // Установка глобальной локализации для программы
-        GUI.set_locale();
-    }*/
-
     /*void set_optios(){
         // Установка глобальных опций для программы
         GUI.set_optios();
     }*/
 
+    /*void set_locale(){
+        // Установка глобальной локализации для программы
+        GUI.set_locale();
+    }*/
+
     void bind_command(){
         // Пишем какие функции на какой элемент итерфейса;
+        /*
+        Структура в которой будут хранится значения типа:
+            struct Command_for_"Имя окна"{
+                "название элемента интерфейса окна" = "функция которая должна быть подвязана на элемент интерфейса"
+            }
+        */
+        struct binds_command{
+            /*
+             Данная структура необходима для хранения команд для окон
+            */
+            struct Command_for_MainWindow{
+                 void (Program::*options_all)() = Program::close_file;
+            };
+            Command_for_MainWindow MainWindow;
+
+        };
+
+        binds_command commad_for_dild;
+
+
 
         // Бинды функций на интерфейс приложения
-        GUI::bind_command();
+        GUI::bind_command(commad_for_dild);
     }
 
     void closeEvent(QCloseEvent *event){
@@ -82,6 +96,9 @@ public:
 
 int main(int argc, char* argv[]){
     system("chcp 65001");
+    auto named = [](){std::cout << "Hello" << std::endl;};
+    named();
+    // cout <<  typeid(named).name() << "\n";
 
     QApplication applicate(argc, argv);
 
@@ -94,9 +111,20 @@ int main(int argc, char* argv[]){
 
     
     // Создаем основное окно программы
-    Program wind;
+    Program  prog;
+
+    /*
+    prog
+
+
+    */
+
+
+    // Добавляем команды на элементы интерфейс
+    prog.bind_command();
+
     // Показываем основное окно программы
-    wind.show();
+    prog.show();
 
     return applicate.exec();
     

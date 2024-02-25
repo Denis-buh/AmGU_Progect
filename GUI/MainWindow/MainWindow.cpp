@@ -38,8 +38,10 @@ protected:
         // Установка опций для интерфейса главного окна приложения
     }*/
 
-    void bind_command(){
+    template< typename Command_for_MainWindow>
+    void bind_command(Command_for_MainWindow commad_for_bind_MainWindow){
         // Добавляет бинды функций на элементы интерфейса главного окна программы
+
     }
 
 };

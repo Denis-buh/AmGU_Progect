@@ -27,6 +27,15 @@
 
 
 
+/**
+ * @brief
+ * Данная структура необходима для работы с интерфейсом вкладки
+*/
+struct Tab{
+
+};
+
+
 
 
 /**
@@ -46,9 +55,11 @@ protected:
         // Установка опций для интерфейса приложения
         Tab_Window.set_optios();
     }*/
-    void bind_command(){
+
+    template< typename binds_command>
+    void bind_command(binds_command commad_for_bind){
         // Добавляет бинды функций на  интерфейс приложения
-        Tab_Window::bind_command();
+        Tab_Window::bind_command(commad_for_bind.MainWindow);
     }
 
     void open_tab(){
