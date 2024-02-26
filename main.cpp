@@ -5,7 +5,7 @@
 #include <iostream>
 #include <QApplication>
 #include <QMessageBox>
-//#include <typeinfo>
+#include <typeinfo>
 #include <map>
 
 // Времено вырезано 
@@ -57,15 +57,17 @@ public:
              Данная структура необходима для хранения команд для окон
             */
             struct Command_for_MainWindow{
-                 void (Program::*options_all)() = Program::close_file;
+
+                 void (Program::*options_all)() = &Program::close_file;
             };
             Command_for_MainWindow MainWindow;
 
         };
-
+        // Инициализация структуры биндов интерфейса
         binds_command commad_for_dild;
 
-
+        /*void (Program::*funcPtr)() = commad_for_dild.MainWindow.options_all; // получаем указатель на функцию
+        (this->*funcPtr)(); // вызываем функцию через указатель*/
 
         // Бинды функций на интерфейс приложения
         GUI::bind_command(commad_for_dild);
@@ -83,6 +85,7 @@ public:
 
     void close_file(){
         // Закрываем вкладку приложения и сохраняем файл
+        cout << "call close_file\n";
     }
 
 };

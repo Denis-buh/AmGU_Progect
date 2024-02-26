@@ -42,6 +42,49 @@ protected:
     void bind_command(Command_for_MainWindow commad_for_bind_MainWindow){
         // Добавляет бинды функций на элементы интерфейса главного окна программы
 
+        /*void (*funcPtr)() = commad_for_bind_MainWindow.options_all; // получаем указатель на функцию
+        (this->*funcPtr)(); // вызываем функцию через указатель*/
+        //connect(options_all, &QAction::triggered, commad_for_bind_MainWindow);
+        /*
+         // Курсы
+         file
+            // Открыть недавний курс
+            file_opened_recently
+                // Очистить недавно открытые
+                file_clear_opened_recently
+         // Добавить курс
+         file_append_course
+            // Локальный
+            file_append_course_local
+            // Из официального сообщества
+            file_append_course_global
+         // Создать курс
+         file_made_course
+
+         // Опции
+         options
+            // Параметры начальной вкладки
+            option_start_tab
+            // Локализация
+            option_locale
+            // Персонализация
+            option_personalisation
+            // Горячие клавиши
+            option_hotkeys
+            // О приложении
+            option_inform_program
+            // Все
+            options_all
+
+         // Прочее
+         other
+            // Отобразить начальную вкладку
+            other_show_strart_tab
+            // Отправить сообщение об ошибке
+            other_inform_error
+
+        */
+
     }
 
 };
