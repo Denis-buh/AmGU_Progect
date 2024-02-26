@@ -41,10 +41,10 @@ protected:
     template< typename Command_for_MainWindow>
     void bind_command(Command_for_MainWindow commad_for_bind_MainWindow){
         // Добавляет бинды функций на элементы интерфейса главного окна программы
-
-        /*void (*funcPtr)() = commad_for_bind_MainWindow.options_all; // получаем указатель на функцию
-        (this->*funcPtr)(); // вызываем функцию через указатель*/
-        //connect(options_all, &QAction::triggered, commad_for_bind_MainWindow);
+        //commad_for_bind_MainWindow.options_all();
+        //connect(options_all, SIGNAL(triggered()),this,SLOT(dosmt()));
+        //options_all->addAction("Open", this, SLOT(open_file()) );
+        //MainWindow::options_all;
         /*
          // Курсы
          file

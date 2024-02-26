@@ -22,6 +22,24 @@ using namespace std;
 
 
 
+/*
+Структура в которой будут хранится значения типа:
+    struct Command_for_"Имя окна"{
+        "название элемента интерфейса окна" = "функция которая должна быть подвязана на элемент интерфейса"
+    }
+*/
+struct coomand_for_bild{
+    /*
+     Данная структура необходима для хранения команд для окон
+    */
+    struct Command_for_MainWindow{
+        // Для основного окна
+        void (*options_all)();
+    };
+    Command_for_MainWindow MainWindow;
+
+};
+
 
 class Program: public GUI{
 private:
@@ -30,8 +48,6 @@ protected:
     // locale // локализация
     // options // опции приложения
     // list_tab // список вкладок (вкладки - специальный класс/структура)
-
-
 
 public:
     /*void set_optios(){
@@ -44,33 +60,9 @@ public:
         GUI.set_locale();
     }*/
 
-    void bind_command(){
-        // Пишем какие функции на какой элемент итерфейса;
-        /*
-        Структура в которой будут хранится значения типа:
-            struct Command_for_"Имя окна"{
-                "название элемента интерфейса окна" = "функция которая должна быть подвязана на элемент интерфейса"
-            }
-        */
-        struct binds_command{
-            /*
-             Данная структура необходима для хранения команд для окон
-            */
-            struct Command_for_MainWindow{
-
-                 void (Program::*options_all)() = &Program::close_file;
-            };
-            Command_for_MainWindow MainWindow;
-
-        };
-        // Инициализация структуры биндов интерфейса
-        binds_command commad_for_dild;
-
-        /*void (Program::*funcPtr)() = commad_for_dild.MainWindow.options_all; // получаем указатель на функцию
-        (this->*funcPtr)(); // вызываем функцию через указатель*/
-
-        // Бинды функций на интерфейс приложения
-        GUI::bind_command(commad_for_dild);
+    void bind_command(coomand_for_bild binds){
+        // Билдим функции на элементы итерфейса;
+        GUI::bind_command(binds);
     }
 
     void closeEvent(QCloseEvent *event){
@@ -92,19 +84,16 @@ public:
 
 
 
-
-
+// Глобальный указатель на класс программы
+Program* link_program = {nullptr};
 
 
 
 int main(int argc, char* argv[]){
     system("chcp 65001");
-    auto named = [](){std::cout << "Hello" << std::endl;};
-    named();
     // cout <<  typeid(named).name() << "\n";
 
     QApplication applicate(argc, argv);
-
 
     // Времено вырезано 
     // Создаем экземпляр класса параметров приложения
@@ -113,18 +102,24 @@ int main(int argc, char* argv[]){
     //opt::File_options program_options = program_option.load_options();
 
     
-    // Создаем основное окно программы
+    // Создаем основной класс программы
     Program  prog;
+    // Ссылаем указатель на основной класс
+    link_program = &prog;
 
-    /*
-    prog
+    // БИНДИМ ИНТЕРФЕЙС //
 
-
-    */
+    coomand_for_bild binds;
+    // Лямбда функция для теста
+    binds.MainWindow.options_all = [](){link_program->close_file();};
+    // binds.MainWindow.options_all();
 
 
     // Добавляем команды на элементы интерфейс
-    prog.bind_command();
+    prog.bind_command(binds);
+
+    // БИНДИМ ИНТЕРФЕЙС //
+
 
     // Показываем основное окно программы
     prog.show();
