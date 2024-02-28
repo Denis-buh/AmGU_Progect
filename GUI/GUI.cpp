@@ -42,7 +42,7 @@ struct Tab{
  * @brief
  * Данный класс необходим для работы с главным окном приложения
 */
-class GUI: public Tab_Window{
+class GUI: public MainWindow{
 private:
 
 protected:
@@ -59,7 +59,7 @@ protected:
     template< typename binds_command>
     void bind_command(binds_command commad_for_bind){
         // Добавляет бинды функций на  интерфейс приложения
-        Tab_Window::bind_command(commad_for_bind.MainWindow);
+        MainWindow::bind_command(commad_for_bind.MainWindow);
     }
 
     void open_tab(){

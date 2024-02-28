@@ -4,9 +4,9 @@
 
 #include <iostream>
 #include <QApplication>
-#include <QMessageBox>
-#include <typeinfo>
-#include <map>
+//#include <QMessageBox>
+//#include <typeinfo>
+//#include <map>
 
 // Времено вырезано 
 // Подключаем библиотеку параметров

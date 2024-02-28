@@ -14,21 +14,26 @@
  *
  * Классы:
  * ------
- *     * Tab_Window - Данный класс является интерфейсом главного окна программы
+ *     * MainWindow - Данный класс является интерфейсом главного окна программы
  *
  *
 */
 
 
-
-
 #pragma once
+#include <QMainWindow>
+#include <QtWidgets/QAction>
 
 
-#include ".\Main_Window.h"
+#include "./ui_Main_Window.h"
 
+class MainWindow: public QMainWindow, public Ui_MainWindow{
+public:
+    MainWindow(){
+        // Загружаем интерфейс
+        this->setupUi(this);
+    }
 
-class Tab_Window: public MainWindow{
 protected:
     /*void set_locale(){
         // Добавляет локализацию на элементы интерфейса главного окна программы
@@ -45,6 +50,14 @@ protected:
         //connect(options_all, SIGNAL(triggered()),this,SLOT(dosmt()));
         //options_all->addAction("Open", this, SLOT(open_file()) );
         //MainWindow::options_all;
+        //connect(this->options_all, SIGNAL(triggered()), this, SLOT(commad_for_bind_MainWindow::options_all()));
+
+        /*this->options_all->connect(this,
+                                   SIGNAL(QAction::triggered()),
+                                   this,
+                                   SLOT(commad_for_bind_MainWindow::options_all())
+                                   );*/
+
         /*
          // Курсы
          file
@@ -86,5 +99,4 @@ protected:
         */
 
     }
-
 };
