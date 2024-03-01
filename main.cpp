@@ -8,10 +8,11 @@
 //#include <typeinfo>
 
 // Времено вырезано 
-// Подключаем библиотеку параметров
-// #include "Options\options.cpp"
 // Подключаем библиотеку графического дизайна
-#include "GUI\GUI.cpp"
+#include "MainWindow\MainWindow.h"
+// Подключаем библиотеку параметров
+#include "Options\Options.h"
+
 //#include "GUI\MainWindow\Main_Window.h"
 // Подключаем библиотеку для работы с файлами
 //#include "Courses\courses.h"
@@ -21,32 +22,33 @@ using namespace std;
 
 
 
-/*
-Структура в которой будут хранится значения типа:
-    struct Command_for_"Имя окна"{
-        "название элемента интерфейса окна" = "функция которая должна быть подвязана на элемент интерфейса"
+struct TabWidget{
+
+public:
+    // Если виждет - параметры
+    Options* Option_Widget = {nullptr};
+    TabWidget(Options* Option_Widget){
+        this->Option_Widget = Option_Widget;
     }
-*/
-struct coomand_for_bild{
-    /*
-     Данная структура необходима для хранения команд для окон
-    */
-    struct Command_for_MainWindow{
-        // Для основного окна
-        void (*options_all)();
-    };
-    Command_for_MainWindow MainWindow;
+
+    void show(){
+        if (this->Option_Widget == nullptr){
+            this->Option_Widget->show();
+        }
+    }
+
 
 };
 
 
-class Program: public GUI{
+class Program: public MainWindow{
 private:
 
 protected:
     // locale // локализация
     // options // опции приложения
     // list_tab // список вкладок (вкладки - специальный класс/структура)
+    Options* dialog = {nullptr};
 
 public:
     /*void set_optios(){
@@ -59,9 +61,9 @@ public:
         GUI.set_locale();
     }*/
 
-    void bind_command(coomand_for_bild binds){
+    void bind_command(){
         // Билдим функции на элементы итерфейса;
-        GUI::bind_command(binds);
+        MainWindow::bind_command();
     }
 
     void closeEvent(QCloseEvent *event){
@@ -70,14 +72,25 @@ public:
 
     }
 
-    void open_file(string roat_file){
+    void test(){
+        cout << "call test function\n";
+
+        //dialog = new Options;
+        TabWidget new_tab(new Options);
+        //new_tab.Option_Widget = ();
+        tabWidget->addTab(new_tab.Option_Widget, "test");
+        new_tab.show();
+    }
+
+
+    /*void open_file(string roat_file){
         // Открываем файл и создаем новую вкладку
     }
 
     void close_file(){
         // Закрываем вкладку приложения и сохраняем файл
         cout << "call close_file\n";
-    }
+    }*/
 
 };
 
@@ -87,9 +100,15 @@ public:
 Program* link_program = {nullptr};
 
 
+// РЕАЛИЗУЕМ ФУНКЦИИ БИНДА ИНТЕРФЕЙСА //
+// Основное окно
+void MainWindow::options_all_clicked(){
+    link_program->test();
+}
+
 
 int main(int argc, char* argv[]){
-    system("chcp 65001");
+    //system("chcp 65001");
     // cout <<  typeid(named).name() << "\n";
 
     QApplication applicate(argc, argv);
@@ -106,18 +125,9 @@ int main(int argc, char* argv[]){
     // Ссылаем указатель на основной класс
     link_program = &prog;
 
-    // БИНДИМ ИНТЕРФЕЙС //
+    // Биндим интерфейс всей программы
+    prog.bind_command();
 
-    coomand_for_bild binds;
-    // Лямбда функция для теста
-    binds.MainWindow.options_all = [](){link_program->close_file();};
-    // binds.MainWindow.options_all();
-
-
-    // Добавляем команды на элементы интерфейс
-    prog.bind_command(binds);
-
-    // БИНДИМ ИНТЕРФЕЙС //
 
 
     // Показываем основное окно программы
