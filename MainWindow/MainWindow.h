@@ -22,23 +22,17 @@
 #pragma once
 #include <QMainWindow>
 #include <iostream>
-#include <list>
+
 #include "./ui_Main_Window.h"
 
 using namespace std;
 
-// Структура виджета вкладки
-struct TabWidget;
 
-// Структура вкладки
-struct Tab{
-public:
-    TabWidget* widget = {nullptr};
-    string* name_tab;
-
-};
+class Program;
 
 
+// Глобальный указатель на класс программы
+//Program* link_program = {nullptr};
 
 
 class MainWindow: public QMainWindow, public Ui_MainWindow{
@@ -51,7 +45,7 @@ protected:
 
     }
     // Список виджетов-вкладок окна
-    list <Tab> Tab_list;
+    //list <Tab> Tab_list;
 
 public:
     /**
@@ -62,25 +56,31 @@ public:
         // Загружаем интерфейс
         this->setupUi(this);
     }
-    void made_tab(TabWidget* widget,  string name_tab){
+
+    /*void made_tab(TabWidget* widget){
+        if (widget->type() == "option"){
+            tabWidget->addTab(widget.Option_Widget, widget->name_tab);
+        }*/
+
+
         //Tab new_tab(*widget, name_tab);
-        Tab new_tab;
+        /*Tab new_tab;
         new_tab.widget = widget;
         new_tab.name_tab = &name_tab;
-        Tab_list.push_back(new_tab);
+        Tab_list.push_back(new_tab);*/
 
 
 
-    }
+    //}
 
 //signals:
 
 public slots:
     void options_all_clicked();
 
-    void close_tab_clicked(int index){
+    void close_tab_clicked(int index);/*{
         cout << index << "\n";
-    }
+    }*/
 
 
 
