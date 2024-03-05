@@ -10,6 +10,7 @@
 //#include <QtWidgets/QS>
 //#include <QMessageBox>
 //#include <typeinfo>
+#include <QDebug>
 
 // Времено вырезано 
 // Подключаем библиотеку графического дизайна
@@ -32,18 +33,19 @@ public:
     // Если вкладка - параметры
     Options* Option_Widget = {nullptr};
     // Имя вкладки
-    string* name_tab = {nullptr};
+    const char* name_tab = {nullptr};
     // Создаем вкладку
-    Tab(Options* Option_Widget, string* name_tab){
+    Tab(Options* Option_Widget, const char* name_tab){
         this->Option_Widget = Option_Widget;
         this->name_tab = name_tab;
 
     }
+
     // Убиваем вкладку
     ~Tab(){
 
         delete this->Option_Widget;
-        delete this->name_tab;
+        //delete this->name_tab;
 
     }
     // Показываем вкладку
@@ -69,6 +71,7 @@ protected:
     // locale // локализация
     // options // опции приложения
     list <Tab*> Tab_list; // список вкладок (вкладки - специальный класс/структура)
+    map<const char*, Tab*> dict_tab;
 
 public:
     /*void set_optios(){
@@ -100,38 +103,97 @@ public:
     Открытие файлов в программе
     */
     void open_file(string roat_file){
-        cout << "Open tab: " << roat_file << "\n";
+        //cout << "Open tab: " << roat_file << "\n";
         // Если пользователь решился открыть параметры
         if (roat_file == "option"){
-            string* name =  new string("Опции приложения: " + to_string(Tab_list.size()));
-            char name2[255];
-            // Из строка делаем массив символов
-            strcpy(name2, name->c_str());
+            // Определяем индекс вкладки будующей вкладки
+            const int index_new_tab = dict_tab.size();
 
-            // Делаем новую вкладку
-            Tab* new_tab_widget = new Tab(new Options, name);
-            //Tab new_tab_widget(new Options, name);
-            // Добавляем вкладку в список вкладок
-            Tab_list.push_back(new_tab_widget);
-            // Отображаем вкладку на интерфейсе
+
+            // Имя вкладки
+            string name_tab = "Опции приложения: " + to_string(index_new_tab);
+            // Из строки делаем массив символов и засовываем его в созданый массив
+            const char* name2 = {name_tab.c_str()};
+           //strcpy(name2, name_tab.c_str());
+
+            // Создаем новую вкладку
+            //Tab* new_tab_widget = new Tab(new Options, name2);
+
+            // Добавляем вкладку в словарь вкладок
+            // Tab_list.push_back(new_tab_widget);
+            dict_tab[name2] = new Tab(new Options, name2);
+            Tab* new_tab_widget =  dict_tab[name2];
+
+            // Добавляем вкладку на виджет вкладок
             tabWidget->addTab(new_tab_widget->Option_Widget, name2);
+
+            // Добавляем штуку по которой будем ловить вкладку
+            tabWidget->setTabWhatsThis(index_new_tab,  QString(name2));
+
+            // Коментарий к вкладки
+            tabWidget->setTabToolTip(index_new_tab, QString("this options (эти опции)") );
+
             // Отображаем интерфейс вкладки
             new_tab_widget->show();
+
+            for ( auto& product : dict_tab){
+                // product - элемент словаря (пара ключь -> значение)
+                // product.first - ключь
+                // product.second - значение по ключю (Аналог products[product.first])
+                cout << &product.first << "\t" << product.second << "\n";
+            };
+
+
         }
 
     }
 
     void close_file(int index_tab){
         // Закрываем вкладку приложения и сохраняем файл
-        cout << "close tab with index = " << index_tab << "\n";
+        //cout << "close tab with index = " << index_tab << "\n";
+        //auto res = tabWidget->tabText(index_tab);
+        //qDebug() << res;
 
-        // Ловим вкладку
+        //cout << "Tab name: " << (tabWidget->tabText(index_tab)).toStdString().c_str() << "\n";
+        //cout << "Flag: " <<  tabWidget->tabWhatsThis(index_tab).toStdString().c_str() << "\n";
+
+        const char* flag = tabWidget->tabWhatsThis(index_tab).toStdString().c_str();
+
+
+        Tab* tab = dict_tab[flag];
+        // Если это параметры
+        if (/*tab->type() == "option"*/true){
+            // Анигилируем вкладку (позже бутем просить сохрания)
+            // Удаляем вкладку с интерфейса окна
+            tabWidget->removeTab(index_tab);
+
+            for ( auto& product : dict_tab){
+                // product - элемент словаря (пара ключь -> значение)
+                // product.first - ключь
+                // product.second - значение по ключю (Аналог products[product.first])
+                cout << &product.first << "\t" << product.second << "\n";
+            };
+            // Удаляем вкладку из списка
+            dict_tab.erase(flag);
+            for ( auto& product : dict_tab){
+                // product - элемент словаря (пара ключь -> значение)
+                // product.first - ключь
+                // product.second - значение по ключю (Аналог products[product.first])
+                cout << &product.first << "\t" << product.second << "\n";
+            };
+            // Удаляем вкладку
+            delete tab;
+        }
+
+        //cout << tab_widget->name_tab << "\n";
+
+        /*// Ловим вкладку
         int i = 0; // Переменная счетчик
 
         for (auto ind3 = Tab_list.begin(); ind3 != Tab_list.end(); ind3++){
             // Проверка на нужную на вкладку
             Tab* tab3 = *ind3;
-            cout << *tab3->name_tab << "\n";
+            cout << tab3->name_tab << "\n";
         }
         cout << "\n";
 
@@ -161,8 +223,8 @@ public:
         for (auto ind39 = Tab_list.begin(); ind39 != Tab_list.end(); ind39++){
             // Проверка на нужную на вкладку
             Tab* tab39 = *ind39;
-            cout << *tab39->name_tab << "\n";
-        }
+            cout << tab39->name_tab << "\n";
+        }*/
     }
 
 };
@@ -180,13 +242,15 @@ void MainWindow::options_all_clicked(){
 }
 
 void MainWindow::close_tab_clicked(int index){
+    //cout <<
     link_program->close_file(index);
 
 }
 
 
 int main(int argc, char* argv[]){
-    //system("chcp 65001");
+    setlocale(LC_ALL, "");
+    system("chcp 65001");
     // cout <<  typeid(named).name() << "\n";
 
     QApplication applicate(argc, argv);
