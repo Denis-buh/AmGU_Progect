@@ -28,11 +28,7 @@
 using namespace std;
 
 
-class Program;
 
-
-// Глобальный указатель на класс программы
-//Program* link_program = {nullptr};
 
 
 class MainWindow: public QMainWindow, public Ui_MainWindow{
@@ -56,22 +52,6 @@ public:
         // Загружаем интерфейс
         this->setupUi(this);
     }
-
-    /*void made_tab(TabWidget* widget){
-        if (widget->type() == "option"){
-            tabWidget->addTab(widget.Option_Widget, widget->name_tab);
-        }*/
-
-
-        //Tab new_tab(*widget, name_tab);
-        /*Tab new_tab;
-        new_tab.widget = widget;
-        new_tab.name_tab = &name_tab;
-        Tab_list.push_back(new_tab);*/
-
-
-
-    //}
 
 //signals:
 

@@ -5,6 +5,7 @@
 #include <iostream>
 #include <QApplication>
 #include <list>
+#include <map>
 #include <string>
 //#include <QtWidgets/QS>
 //#include <QMessageBox>
@@ -27,8 +28,10 @@ using namespace std;
 // Структура вкладки
 struct Tab{
 public:
-    // Если виждет - параметры
+    // Интерфейс вкладки //
+    // Если вкладка - параметры
     Options* Option_Widget = {nullptr};
+    // Имя вкладки
     string* name_tab = {nullptr};
     // Создаем вкладку
     Tab(Options* Option_Widget, string* name_tab){
@@ -38,6 +41,7 @@ public:
     }
     // Убиваем вкладку
     ~Tab(){
+
         delete this->Option_Widget;
         delete this->name_tab;
 
@@ -123,14 +127,14 @@ public:
 
         // Ловим вкладку
         int i = 0; // Переменная счетчик
-        /*
+
         for (auto ind3 = Tab_list.begin(); ind3 != Tab_list.end(); ind3++){
             // Проверка на нужную на вкладку
             Tab* tab3 = *ind3;
             cout << *tab3->name_tab << "\n";
         }
         cout << "\n";
-        */
+
 
         auto ind = Tab_list.begin(); // Индекс вкладки по списку
         for (; ind != Tab_list.end(); ind++){
@@ -152,13 +156,13 @@ public:
             delete tab;
         }
 
-        /*
+
         cout << "\n";
         for (auto ind39 = Tab_list.begin(); ind39 != Tab_list.end(); ind39++){
             // Проверка на нужную на вкладку
             Tab* tab39 = *ind39;
             cout << *tab39->name_tab << "\n";
-        }*/
+        }
     }
 
 };
