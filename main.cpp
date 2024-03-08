@@ -30,13 +30,19 @@ using namespace std;
 struct Tab{
 public:
     // Интерфейс вкладки //
-    // Если вкладка - параметры
-    Options* Option_Widget = {nullptr};
+        // Если вкладка - параметры
+        Options* Option_Widget = {nullptr};
+
     // Имя вкладки
     const char* name_tab = {nullptr};
+
+
+
     // Создаем вкладку
     Tab(Options* Option_Widget, const char* name_tab){
+        // Виджет
         this->Option_Widget = Option_Widget;
+        // Имя вкладки
         this->name_tab = name_tab;
 
     }
@@ -55,9 +61,13 @@ public:
         }
     }
 
+    void append_watthis(){
+
+    }
+
     // Проверяем каково типа эта вкладка
     string type(){
-        if (this->Option_Widget != nullptr) {return "option";}
+        if (this->Option_Widget != nullptr)  {return "option";}
     }
 
 };
@@ -66,12 +76,36 @@ public:
 
 class Program: public MainWindow{
 private:
+    /*
+    Дает ключь которого не существует в словаре
+    */
+    int get_key_for_dict(){
+        int key_for_dict = 0;
+        while(true){
+            bool flag = true;
+            // Проверка по словарю на существование ключа
+            for (auto i : dict_tab){
+                if (i.first == key_for_dict){
+                    // Такой ключ есть
+                    flag = false;
+                    break;
+                }
+            }
+            // Такого ключа нет
+            if (flag){
+                break;
+            }
+            // Если такой ключь уже есть в словаре
+            key_for_dict += 1;
+        }
+        return key_for_dict;
+    }
 
 protected:
     // locale // локализация
     // options // опции приложения
-    list <Tab*> Tab_list; // список вкладок (вкладки - специальный класс/структура)
-    map<const char*, Tab*> dict_tab;
+
+    map<const int, Tab*> dict_tab;
 
 public:
     /*void set_optios(){
@@ -103,128 +137,110 @@ public:
     Открытие файлов в программе
     */
     void open_file(string roat_file){
-        //cout << "Open tab: " << roat_file << "\n";
+        cout << "BEFORE OPEN FILE\n";
+        cout << "Open tab: " << roat_file << "\n";
+
+        for ( auto& tab : dict_tab){
+            cout << tab.first << "\t" << tab.second << "\n";
+        };
+        cout << "\n";
+
         // Если пользователь решился открыть параметры
         if (roat_file == "option"){
-            // Определяем индекс вкладки будующей вкладки
-            const int index_new_tab = dict_tab.size();
-
-
             // Имя вкладки
-            string name_tab = "Опции приложения: " + to_string(index_new_tab);
-            // Из строки делаем массив символов и засовываем его в созданый массив
-            const char* name2 = {name_tab.c_str()};
-           //strcpy(name2, name_tab.c_str());
+            string name_tab = string("Опции приложения: " + to_string(dict_tab.size()));
+            const char* name_tab2 = {name_tab.c_str()};
 
-            // Создаем новую вкладку
-            //Tab* new_tab_widget = new Tab(new Options, name2);
+            // Опозавательный знак вкладки (для словаря + индекс вкладки)
+            int index_name = this->get_key_for_dict();
+            // Опозавательный знак переводим в массив символов
+            const char* name2 = to_string(index_name).c_str();
 
-            // Добавляем вкладку в словарь вкладок
-            // Tab_list.push_back(new_tab_widget);
-            dict_tab[name2] = new Tab(new Options, name2);
-            Tab* new_tab_widget =  dict_tab[name2];
+
+            // Добавляем вкладку в словарь вкладок (сделать провеку на пустоту ключа
+            dict_tab[index_name] = new Tab(new Options, name2);
+            Tab* new_tab_widget =  dict_tab[index_name];
 
             // Добавляем вкладку на виджет вкладок
-            tabWidget->addTab(new_tab_widget->Option_Widget, name2);
+            tabWidget->addTab(new_tab_widget->Option_Widget, QString(name_tab2/*"Опции приложения"*/));
 
-            // Добавляем штуку по которой будем ловить вкладку
-            tabWidget->setTabWhatsThis(index_new_tab,  QString(name2));
+            // Позиция созданой вкладки (необходима для крепления обвесов)
+            int index_tab = tabWidget->indexOf(new_tab_widget->Option_Widget);
+
+            // Добавляем опозавательный знак вкладки
+            tabWidget->setTabWhatsThis(index_tab, QString(name2));
 
             // Коментарий к вкладки
-            tabWidget->setTabToolTip(index_new_tab, QString("this options (эти опции)") );
+            tabWidget->setTabToolTip(index_tab, QString(name2/*"this options (эти опции)"*/) );
 
             // Отображаем интерфейс вкладки
             new_tab_widget->show();
 
-            for ( auto& product : dict_tab){
-                // product - элемент словаря (пара ключь -> значение)
-                // product.first - ключь
-                // product.second - значение по ключю (Аналог products[product.first])
-                cout << &product.first << "\t" << product.second << "\n";
+            for ( auto& tab : dict_tab){
+                cout << tab.first << "\t" << tab.second << "\n";
             };
-
+            cout << "\n";
 
         }
+        cout << "AFTER OPEN FILE\n";
 
     }
 
     void close_file(int index_tab){
         // Закрываем вкладку приложения и сохраняем файл
-        //cout << "close tab with index = " << index_tab << "\n";
-        //auto res = tabWidget->tabText(index_tab);
-        //qDebug() << res;
+        cout << "BEFORE DELETE TAB\n";
 
-        //cout << "Tab name: " << (tabWidget->tabText(index_tab)).toStdString().c_str() << "\n";
-        //cout << "Flag: " <<  tabWidget->tabWhatsThis(index_tab).toStdString().c_str() << "\n";
-
+        // Опозавательный знак вкладки
         const char* flag = tabWidget->tabWhatsThis(index_tab).toStdString().c_str();
 
-
-        Tab* tab = dict_tab[flag];
-        // Если это параметры
-        if (/*tab->type() == "option"*/true){
-            // Анигилируем вкладку (позже бутем просить сохрания)
-            // Удаляем вкладку с интерфейса окна
-            tabWidget->removeTab(index_tab);
-
-            for ( auto& product : dict_tab){
-                // product - элемент словаря (пара ключь -> значение)
-                // product.first - ключь
-                // product.second - значение по ключю (Аналог products[product.first])
-                cout << &product.first << "\t" << product.second << "\n";
-            };
-            // Удаляем вкладку из списка
-            dict_tab.erase(flag);
-            for ( auto& product : dict_tab){
-                // product - элемент словаря (пара ключь -> значение)
-                // product.first - ключь
-                // product.second - значение по ключю (Аналог products[product.first])
-                cout << &product.first << "\t" << product.second << "\n";
-            };
-            // Удаляем вкладку
-            delete tab;
+        int flag_index;
+        // Блок в котором масив символов переводим в строку
+        {
+            // Строка в которую засунем масив символов
+            string nu = "";
+            int i = -1;
+            char cha;
+            do{
+                i += 1;
+                cha = flag[i];
+                nu += cha;
+            }
+            while(cha != '\0');
+            flag_index = stoi(nu);
         }
 
-        //cout << tab_widget->name_tab << "\n";
 
-        /*// Ловим вкладку
-        int i = 0; // Переменная счетчик
-
-        for (auto ind3 = Tab_list.begin(); ind3 != Tab_list.end(); ind3++){
-            // Проверка на нужную на вкладку
-            Tab* tab3 = *ind3;
-            cout << tab3->name_tab << "\n";
-        }
-        cout << "\n";
+        // Получаем вкладу
+        Tab* tab = dict_tab[flag_index];
 
 
-        auto ind = Tab_list.begin(); // Индекс вкладки по списку
-        for (; ind != Tab_list.end(); ind++){
-            // Проверка на нужную на вкладку
-            if (i == index_tab){break;}
-            i += 1;
-        }
-
-        // Провиряем что эта за вкладка и просим сохранить изменения
-        Tab* tab = *ind; // Указатель на вкладку
         // Если это параметры
         if (tab->type() == "option"){
             // Анигилируем вкладку (позже бутем просить сохрания)
             // Удаляем вкладку с интерфейса окна
             tabWidget->removeTab(index_tab);
-            // Удаляем вкладку из списка
-            Tab_list.erase(ind);
+            cout << "Before deleting a tab\n";
+            for ( auto& tab : dict_tab){
+                cout << tab.first << "\t" << tab.second << "\n";
+            }
+
+            cout << "\n";
+
+            // Удаляем вкладку из словаря
+            dict_tab.erase(flag_index);
+
+            cout << "After deleting a tab\n";
+            for ( auto& tab : dict_tab){
+                cout << tab.first << "\t" << tab.second << "\n";
+            }
+           // cout << "index_new_tab = " << dict_tab.size() << "\n";
+            cout << "\n";
+
             // Удаляем вкладку
             delete tab;
         }
 
-
-        cout << "\n";
-        for (auto ind39 = Tab_list.begin(); ind39 != Tab_list.end(); ind39++){
-            // Проверка на нужную на вкладку
-            Tab* tab39 = *ind39;
-            cout << tab39->name_tab << "\n";
-        }*/
+        cout << "AFTER DELETE TAB\n";
     }
 
 };
@@ -242,9 +258,7 @@ void MainWindow::options_all_clicked(){
 }
 
 void MainWindow::close_tab_clicked(int index){
-    //cout <<
     link_program->close_file(index);
-
 }
 
 
