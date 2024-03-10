@@ -34,14 +34,7 @@ using namespace std;
 class MainWindow: public QMainWindow, public Ui_MainWindow{
     Q_OBJECT
 protected:
-    void bind_command(){
-        connect(this->options_all, SIGNAL(triggered()), this, SLOT(options_all_clicked()));
-        connect(this->tabWidget, SIGNAL(tabCloseRequested(int)), this, SLOT(close_tab_clicked(int)));
-        //connect(this->tabWidget, SIGNAL(tabCloseRequested(int index)), this, SLOT(close_tab_clicked(int index)));
 
-    }
-    // Список виджетов-вкладок окна
-    //list <Tab> Tab_list;
 
 public:
     /**
@@ -53,16 +46,16 @@ public:
         this->setupUi(this);
     }
 
+    void bind_command(){
+        connect(this->options_all, SIGNAL(triggered()), this, SLOT(options_all_clicked()));
+        connect(this->tabWidget, SIGNAL(tabCloseRequested(int)), this, SLOT(close_tab_clicked(int)));
+    }
+
 //signals:
 
 public slots:
     void options_all_clicked();
-
-    void close_tab_clicked(int index);/*{
-        cout << index << "\n";
-    }*/
-
-
+    void close_tab_clicked(int index);
 
 };
 

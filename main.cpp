@@ -4,21 +4,16 @@
 
 #include <iostream>
 #include <QApplication>
-#include <list>
 #include <map>
 #include <string>
-//#include <QtWidgets/QS>
-//#include <QMessageBox>
-//#include <typeinfo>
-#include <QDebug>
+//#include <QDrag>
 
-// Времено вырезано 
+
 // Подключаем библиотеку графического дизайна
 #include "MainWindow\MainWindow.h"
 // Подключаем библиотеку параметров
 #include "Options\Options.h"
 
-//#include "GUI\MainWindow\Main_Window.h"
 // Подключаем библиотеку для работы с файлами
 //#include "Courses\courses.h"
 
@@ -33,10 +28,8 @@ public:
         // Если вкладка - параметры
         Options* Option_Widget = {nullptr};
 
-    // Имя вкладки
+    // Опознавательный знак вкладки
     const char* name_tab = {nullptr};
-
-
 
     // Создаем вкладку
     Tab(Options* Option_Widget, const char* name_tab){
@@ -49,36 +42,27 @@ public:
 
     // Убиваем вкладку
     ~Tab(){
-
         delete this->Option_Widget;
-        //delete this->name_tab;
-
+        delete this->name_tab;
     }
+
     // Показываем вкладку
     void show(){
-        if (this->Option_Widget == nullptr){
-            this->Option_Widget->show();
-        }
-    }
-
-    void append_watthis(){
-
+        if (this->Option_Widget == nullptr)  {this->Option_Widget->show();}
     }
 
     // Проверяем каково типа эта вкладка
     string type(){
-        if (this->Option_Widget != nullptr)  {return "option";}
+        if (this->Option_Widget != nullptr)  {return "option";};
     }
-
+    const char get_name()  {return *name_tab;}
 };
 
 
 
 class Program: public MainWindow{
 private:
-    /*
-    Дает ключь которого не существует в словаре
-    */
+    /* Дает ключь которого не существует в словаре */
     int get_key_for_dict(){
         int key_for_dict = 0;
         while(true){
@@ -92,9 +76,7 @@ private:
                 }
             }
             // Такого ключа нет
-            if (flag){
-                break;
-            }
+            if (flag)  {break;}
             // Если такой ключь уже есть в словаре
             key_for_dict += 1;
         }
@@ -108,53 +90,41 @@ protected:
     map<const int, Tab*> dict_tab;
 
 public:
-    /*void set_optios(){
-        // Установка глобальных опций для программы
-        GUI.set_optios();
-    }*/
-
-    /*void set_locale(){
-        // Установка глобальной локализации для программы
-        GUI.set_locale();
-    }*/
-
-    void bind_command(){
-        // Билдим функции на элементы итерфейса;
-        MainWindow::bind_command();
+    /* Инициализация класса */
+    Program(){
+        // Биндим интерфейс всей программы
+        this->bind_command();
+        this->set_optios();
+        this->set_locale();
     }
 
-    /*void closeEvent(QCloseEvent *event){
-        // Реакция на закрытия окна (тут будем юзера упрашивать сохранить файлы)
-        cout << "Close window\n";
+    /* Установка параметров приложения */
+    void set_optios()  {cout << "set_optios\n";}
 
-    }*/
-
-    void test(){cout << "call test function\n";}
+    /* Установка локализации для главного окна программы*/
+    void set_locale()  {cout << "set_locale\n";}
 
 
+    /* */
+    void dragEnterEvent(QDragEnterEvent *event){
+        cout << "iugigiogogoi\n";
+        //const QMimeData mine = event->mimeData();
+        //const QMimeData mime = event.mimeData();
+        // Если перемещаются ссылки
+        //if (mime.thasUrls()){
+            // Разрешаем
+            //event->acceptProposedAction();}
+    }
 
-    /*
-    Открытие файлов в программе
-    */
+    /* Открытие файлов/вкладок в программе */
     void open_file(string roat_file){
-        cout << "BEFORE OPEN FILE\n";
-        cout << "Open tab: " << roat_file << "\n";
-
-        for ( auto& tab : dict_tab){
-            cout << tab.first << "\t" << tab.second << "\n";
-        };
-        cout << "\n";
 
         // Если пользователь решился открыть параметры
         if (roat_file == "option"){
-            // Имя вкладки
-            string name_tab = string("Опции приложения: " + to_string(dict_tab.size()));
-            const char* name_tab2 = {name_tab.c_str()};
-
             // Опозавательный знак вкладки (для словаря + индекс вкладки)
             int index_name = this->get_key_for_dict();
             // Опозавательный знак переводим в массив символов
-            const char* name2 = to_string(index_name).c_str();
+             const char* name2 = to_string(index_name).c_str();
 
 
             // Добавляем вкладку в словарь вкладок (сделать провеку на пустоту ключа
@@ -162,7 +132,7 @@ public:
             Tab* new_tab_widget =  dict_tab[index_name];
 
             // Добавляем вкладку на виджет вкладок
-            tabWidget->addTab(new_tab_widget->Option_Widget, QString(name_tab2/*"Опции приложения"*/));
+            tabWidget->addTab(new_tab_widget->Option_Widget, QString("Опции приложения"));
 
             // Позиция созданой вкладки (необходима для крепления обвесов)
             int index_tab = tabWidget->indexOf(new_tab_widget->Option_Widget);
@@ -171,31 +141,22 @@ public:
             tabWidget->setTabWhatsThis(index_tab, QString(name2));
 
             // Коментарий к вкладки
-            tabWidget->setTabToolTip(index_tab, QString(name2/*"this options (эти опции)"*/) );
+            tabWidget->setTabToolTip(index_tab, QString(name2/*"Вкладка опций приложения. Необходима для изменения параметров приложения"*/) );
 
             // Отображаем интерфейс вкладки
             new_tab_widget->show();
-
-            for ( auto& tab : dict_tab){
-                cout << tab.first << "\t" << tab.second << "\n";
-            };
-            cout << "\n";
-
         }
-        cout << "AFTER OPEN FILE\n";
 
     }
 
+    /* Закрытие файлов/вкладок в программе */
     void close_file(int index_tab){
-        // Закрываем вкладку приложения и сохраняем файл
-        cout << "BEFORE DELETE TAB\n";
-
-        // Опозавательный знак вкладки
-        const char* flag = tabWidget->tabWhatsThis(index_tab).toStdString().c_str();
 
         int flag_index;
         // Блок в котором масив символов переводим в строку
         {
+            // Опозавательный знак вкладки
+            const char* flag = tabWidget->tabWhatsThis(index_tab).toStdString().c_str();
             // Строка в которую засунем масив символов
             string nu = "";
             int i = -1;
@@ -209,8 +170,7 @@ public:
             flag_index = stoi(nu);
         }
 
-
-        // Получаем вкладу
+        // Получаем вкладу (из словаря)
         Tab* tab = dict_tab[flag_index];
 
 
@@ -219,28 +179,18 @@ public:
             // Анигилируем вкладку (позже бутем просить сохрания)
             // Удаляем вкладку с интерфейса окна
             tabWidget->removeTab(index_tab);
-            cout << "Before deleting a tab\n";
-            for ( auto& tab : dict_tab){
-                cout << tab.first << "\t" << tab.second << "\n";
-            }
-
-            cout << "\n";
-
             // Удаляем вкладку из словаря
             dict_tab.erase(flag_index);
-
-            cout << "After deleting a tab\n";
-            for ( auto& tab : dict_tab){
-                cout << tab.first << "\t" << tab.second << "\n";
-            }
-           // cout << "index_new_tab = " << dict_tab.size() << "\n";
-            cout << "\n";
-
             // Удаляем вкладку
             delete tab;
         }
+    }
 
-        cout << "AFTER DELETE TAB\n";
+
+    void closeEvent(QCloseEvent *event){
+        // Реакция на закрытия окна (тут будем юзера упрашивать сохранить файлы)
+        cout << "Close window\n";
+
     }
 
 };
@@ -263,10 +213,6 @@ void MainWindow::close_tab_clicked(int index){
 
 
 int main(int argc, char* argv[]){
-    setlocale(LC_ALL, "");
-    system("chcp 65001");
-    // cout <<  typeid(named).name() << "\n";
-
     QApplication applicate(argc, argv);
 
     // Времено вырезано 
@@ -280,9 +226,6 @@ int main(int argc, char* argv[]){
     Program  prog;
     // Ссылаем указатель на основной класс
     link_program = &prog;
-
-    // Биндим интерфейс всей программы
-    prog.bind_command();
 
 
 
