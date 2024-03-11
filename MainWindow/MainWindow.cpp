@@ -2,31 +2,17 @@
 
 
 
-/**
- * Данный модуль содержит класс и константы для работы с интерфейсом главного окна программы
- * Использовать для очень тонкой настройки окна
- * + когда нужно настраивать только главное окно
- *
- *
- * Константы:
- * ---------
- *
- *
- * Классы:
- * ------
- *     * MainWindow - Данный класс является интерфейсом главного окна программы
- *
- *
-*/
+#include "./MainWindow.h"
 
 
-#pragma once
-#include <QMainWindow>
-#include <QtWidgets/QAction>
+
+// Класс основного окна
 
 
-#include "./ui_Main_Window.h"
 
+
+
+/*
 class MainWindow: public QMainWindow, public Ui_MainWindow{
 public:
     MainWindow(){
@@ -34,7 +20,7 @@ public:
         this->setupUi(this);
     }
 
-protected:
+protected:*/
     /*void set_locale(){
         // Добавляет локализацию на элементы интерфейса главного окна программы
     }*/
@@ -43,8 +29,8 @@ protected:
         // Установка опций для интерфейса главного окна приложения
     }*/
 
-    template< typename Command_for_MainWindow>
-    void bind_command(Command_for_MainWindow commad_for_bind_MainWindow){
+/*    template< typename Command_for_MainWindow>
+    void bind_command(Command_for_MainWindow commad_for_bind_MainWindow){*/
         // Добавляет бинды функций на элементы интерфейса главного окна программы
         //commad_for_bind_MainWindow.options_all();
         //connect(options_all, SIGNAL(triggered()),this,SLOT(dosmt()));
@@ -98,5 +84,5 @@ protected:
 
         */
 
-    }
-};
+//    }
+//};
