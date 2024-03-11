@@ -105,17 +105,6 @@ public:
     void set_locale()  {cout << "set_locale\n";}
 
 
-    /* */
-    void dragEnterEvent(QDragEnterEvent *event){
-        cout << "iugigiogogoi\n";
-        //const QMimeData mine = event->mimeData();
-        //const QMimeData mime = event.mimeData();
-        // Если перемещаются ссылки
-        //if (mime.thasUrls()){
-            // Разрешаем
-            //event->acceptProposedAction();}
-    }
-
     /* Открытие файлов/вкладок в программе */
     void open_file(string roat_file){
 
