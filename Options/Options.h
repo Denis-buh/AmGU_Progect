@@ -50,10 +50,7 @@ public:
 
 public slots:
     // Какая то реакция на кнопку
-    void coomande(){
-        cout << "clicked button in options\n";
-    }
-
+    void coomande()  {cout << "clicked button in options\n";}
 
 };
 

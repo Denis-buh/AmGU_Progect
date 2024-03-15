@@ -47,15 +47,23 @@ public:
     }
 
     void bind_command(){
+        // ДЛЯ ПАРАМЕТРОВ //
         connect(this->options_all, SIGNAL(triggered()), this, SLOT(options_all_clicked()));
+        // ДЛЯ ВКЛАДОК //
         connect(this->tabWidget, SIGNAL(tabCloseRequested(int)), this, SLOT(close_tab_clicked(int)));
+        // ДЛЯ КУРСОВ //
+        connect(this->file_open_course, SIGNAL(triggered()), this, SLOT(course_open()));
     }
 
 //signals:
 
 public slots:
-    void options_all_clicked();
-    void close_tab_clicked(int index);
+    // ДЛЯ ПАРАМЕТРОВ //
+    void options_all_clicked(); // Открытие параметров
+    // ДЛЯ ВКЛАДОК //
+    void close_tab_clicked(int index); // Закрытие вкладок
+    // ДЛЯ КУРСОВ //
+    void course_open(); // Открытие курса
 
 };
 
@@ -63,16 +71,13 @@ public slots:
 /*
  // Курсы
  file
+    // Открыть курс
+    file_open_course
+
     // Открыть недавний курс
     file_opened_recently
         // Очистить недавно открытые
         file_clear_opened_recently
- // Добавить курс
- file_append_course
-    // Локальный
-    file_append_course_local
-    // Из официального сообщества
-    file_append_course_global
  // Создать курс
  file_made_course
 

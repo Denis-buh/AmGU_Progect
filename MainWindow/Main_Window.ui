@@ -88,13 +88,6 @@
     <property name="title">
      <string>Курсы</string>
     </property>
-    <widget class="QMenu" name="file_append_course">
-     <property name="title">
-      <string>Добавить курс</string>
-     </property>
-     <addaction name="file_append_course_local"/>
-     <addaction name="file_append_course_global"/>
-    </widget>
     <widget class="QMenu" name="file_opened_recently">
      <property name="title">
       <string>Открыть недавний курс</string>
@@ -102,9 +95,9 @@
      <addaction name="separator"/>
      <addaction name="file_clear_opened_recently"/>
     </widget>
-    <addaction name="file_opened_recently"/>
+    <addaction name="file_open_course"/>
     <addaction name="separator"/>
-    <addaction name="file_append_course"/>
+    <addaction name="file_opened_recently"/>
     <addaction name="separator"/>
     <addaction name="file_made_course"/>
    </widget>
@@ -188,6 +181,11 @@
   <action name="file_clear_opened_recently">
    <property name="text">
     <string>Очистить недавно открытые</string>
+   </property>
+  </action>
+  <action name="file_open_course">
+   <property name="text">
+    <string>Добавить курс</string>
    </property>
   </action>
  </widget>

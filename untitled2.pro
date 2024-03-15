@@ -17,8 +17,10 @@ SOURCES += \
 
 HEADERS  += \
     MainWindow/MainWindow.h \
-    Options/Options.h
+    Options/Options.h \
+    Courses/Courses.h \
 
 FORMS    += \
     MainWindow/Main_Window.ui \
-    Options/Options.ui
+    Options/Options.ui \
+    Courses/Courses.ui
