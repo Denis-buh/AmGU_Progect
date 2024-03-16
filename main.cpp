@@ -38,7 +38,7 @@ public:
     // Опознавательный знак вкладки
     const char* name_tab = {nullptr};
 
-    // Создаем вкладку
+    // Создаем вкладку параметров
     Tab(Options* Option_Widget, const char* name_tab){
         // Виджет
         this->Option_Widget = Option_Widget;
@@ -46,7 +46,7 @@ public:
         this->name_tab = name_tab;
     }
 
-    // Создаем вкладку
+    // Создаем вкладку курсов
     Tab(Cour* cour_widgwt, const char* name_tab){
         // Виджет
         this->cour_widgwt = cour_widgwt;
@@ -70,7 +70,8 @@ public:
 
     // Проверяем каково типа эта вкладка
     string type(){
-        if (this->Option_Widget != nullptr)  {return "option";};
+        if (this->Option_Widget != nullptr)  {return "option";}
+        else if (this->cour_widgwt != nullptr)  {return "cour";}
     }
     const char get_name()  {return *name_tab;}
 };
@@ -206,15 +207,18 @@ public:
 
 
         // Если это параметры
-        if (tab->type() == "option"){
-            // Анигилируем вкладку (позже бутем просить сохрания)
-            // Удаляем вкладку с интерфейса окна
-            tabWidget->removeTab(index_tab);
-            // Удаляем вкладку из словаря
-            dict_tab.erase(flag_index);
-            // Удаляем вкладку
-            delete tab;
-        }
+        if (tab->type() == "option"){}
+
+        // Если это курсы
+        if (tab->type() == "cour"){}
+
+        // Анигилируем вкладку (если пользователь не передумал)
+        // Удаляем вкладку с интерфейса окна
+        tabWidget->removeTab(index_tab);
+        // Удаляем вкладку из словаря
+        dict_tab.erase(flag_index);
+        // Удаляем вкладку
+        delete tab;
     }
 
 
